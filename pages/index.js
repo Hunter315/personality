@@ -20,10 +20,10 @@ import clientCredentials from '../credentials/client'
   constructor(props){
     super(props)
     this.state = {
-      user: this.props.user,
-      value: '',
+      user: this.props.user
       //any other things to get at first
     }
+    
 
   }
   componentDidMount(){
@@ -42,7 +42,7 @@ import clientCredentials from '../credentials/client'
           .then(token => {
             return fetch('/api/login', {
               method: 'POST',
-              headers: new Header({'Content-Type': 'application/json'}),
+              headers: new Headers({'Content-Type': 'application/json'}),
               credentials: 'same-origin',
               body: JSON.stringify({token})
             })
@@ -74,7 +74,7 @@ import clientCredentials from '../credentials/client'
 
     <div className="hero">
       <h1 className="title">Welcome to Next!</h1>
-      { 1 ? (
+      { this.state.user ? (
         <button onClick={this.handleLogout}>Logout</button>
 
       ) : (
