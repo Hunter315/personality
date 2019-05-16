@@ -9,6 +9,10 @@ import 'firebase/firestore'
 import 'isomorphic-unfetch'
 import clientCredentials from '../credentials/client'
 
+
+//COMPONENTS
+import Questions from '../components/questions/questions';
+
  export default class Index extends React.Component {
   static async getInitialProps ({ req, query }) {
     console.log(req)
@@ -71,9 +75,13 @@ import clientCredentials from '../credentials/client'
   <div>
     <Head title="Home" />
     <Nav />
-
+    <Questions/>
     <div className="hero">
-      <h1 className="title">Welcome to Next!</h1>
+      
+
+
+
+
       { this.state.user ? (
         <button onClick={this.handleLogout}>Logout</button>
 
@@ -83,12 +91,7 @@ import clientCredentials from '../credentials/client'
 
      
 
-      <div className="row">
-        
-       
-       
-        
-      </div>
+     
     </div>
 
     <style jsx>{`
