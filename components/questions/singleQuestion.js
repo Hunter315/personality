@@ -3,10 +3,9 @@ import React from 'react';
 const SingleQuestion = (props) => {
 
 
-console.log(props)
-React.useEffect(()=>{
+// React.useEffect(()=>{
 
-},[])
+// },[])
     return(
         <>
         <h4>{props.title}</h4>

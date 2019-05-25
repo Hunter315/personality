@@ -10,37 +10,38 @@ import 'isomorphic-unfetch'
 import clientCredentials from '../credentials/client'
 
 
+import {Store} from '../components/store'
+
+
 //COMPONENTS
 import Questions from '../components/questions/questions';
 
- export default class Index extends React.Component {
-  static async getInitialProps ({ req, query }) {
-    console.log(req)
-    const user = req && req.session ? req.session.decodedToken : null
-  // don't fetch anything from firebase if the user is not found
-    console.log(user)
-  return {user}
-  }
-  constructor(props){
-    super(props)
-    this.state = {
-      user: this.props.user
-      //any other things to get at first
-    }
+const Index = (props) => {
+const [localUser, setLocalUser] = React.useState({})
     
-
-  }
-  componentDidMount(){
+const {state, dispatch} = React.useContext(Store)
+  console.log("localUser", localUser)
+  const initFirebase = () => {
     if (!firebase.apps.length) {
       firebase.initializeApp(clientCredentials); }
 
-    if(this.state.user){
+    if(state.user){
+      console.log("componentDidMount local state user: ", state.user)
+      dispatch({
+        type: "LOGIN",
+        payload: state.user
+      });
       //I can request info here from db about user if i want once they are logged in
     }
 
     firebase.auth().onAuthStateChanged(user => {
       if (user) {
-        this.setState({ user: user })
+        setLocalUser(user)
+        console.log(user)
+        dispatch({
+          type: "LOGIN",
+          payload: user
+        });
         return user
           .getIdToken()
           .then(token => {
@@ -62,15 +63,22 @@ import Questions from '../components/questions/questions';
     })
 
   }// eend CDM
-   handleLogin () {
+  
+  const handleLogin = () => {
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider())
   }
 
-  handleLogout () {
+  const handleLogout = () => {
     firebase.auth().signOut()
+    dispatch({
+      type: "LOGOUT"    
+    });
   }
-  render(){
-
+ 
+  console.log("STATE>USER", state)
+React.useEffect(()=>{
+  initFirebase()
+},[])
   return(
   <div>
     <Head title="Home" />
@@ -82,11 +90,11 @@ import Questions from '../components/questions/questions';
 
 
 
-      { this.state.user ? (
-        <button onClick={this.handleLogout}>Logout</button>
+      { state.user ? (
+        <button onClick={handleLogout}>Logout</button>
 
       ) : (
-        <button onClick={this.handleLogin}>Login With Google</button>
+        <button onClick={handleLogin}>Login With Google</button>
       )}
 
      
@@ -142,7 +150,15 @@ import Questions from '../components/questions/questions';
     `}</style>
   </div>
 )
-  }
+  
 }
 
+Index.getInitialProps = ({ req, query }) => {
+  console.log(req)
+  const user = req && req.session ? req.session.decodedToken : null
+// don't fetch anything from firebase if the user is not found
+  console.log(user)
+return {user}
+}
+export default Index;
 
