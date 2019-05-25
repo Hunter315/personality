@@ -1,29 +1,25 @@
 import React from 'react';
 import SingleQuestion from './singleQuestion';
 
-const allQuestions = ["Question 1"]
+const questionsArray = ["Question 1", "Question 2", "Question 3"];
+
 const Questions = () => {
 
-//display all questions from an array map which populates a single Question component.
 
+console.log(questionsArray)
+React.useEffect(()=>{
 
+})
+    return(
+        <div className="questions-container">
+        {questionsArray.map((question) =>
+         
+            <SingleQuestion title={question} />
+            
+        )}
 
-
-
-return(
-<>
-{allQuestions.map((question) => {
-    <SingleQuestion title={question} />
-})}
-
-
-
-</>
-
-
-)
-
-
+        </div>
+    )
 }
 
 export default Questions;
