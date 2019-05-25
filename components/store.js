@@ -4,16 +4,14 @@ export const Store = React.createContext(); //creates context object
 
 const initialState = {
     loggedIn: false,
-    user: {
-        displayName: "",
-        userId: ""
-    },
+    userId:"",
+    displayName: ""
 }
 
 function reducer(state, action) {
     switch(action.type){
         case 'LOGIN':
-            return { ...state, loggedIn: true, userId: action.payload.id, displayName: action.payload.name}
+            return { ...state, loggedIn: true, userId: action.payload.uid, displayName: action.payload.name}
         case 'LOGOUT':
             return {...state, loggedIn: false, }
         default:

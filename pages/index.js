@@ -90,7 +90,7 @@ React.useEffect(()=>{
 
 
 
-      { state.user ? (
+      { state.userId ? (
         <button onClick={handleLogout}>Logout</button>
 
       ) : (

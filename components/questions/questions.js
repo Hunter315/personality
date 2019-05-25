@@ -7,7 +7,7 @@ const questionsArray = ["Question 1", "Question 2", "Question 3"];
 
 const Questions = () => {
     const {state, dispatch} = React.useContext(Store)
-
+console.log(state.userId)
     const answerQuestion = (responses) => {
 
         firebase.firestore().collection('users').doc(state.userId)
